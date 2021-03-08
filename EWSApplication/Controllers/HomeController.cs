@@ -13,7 +13,7 @@ namespace EWSApplication.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        
+
         public ActionResult Index(string mode = "all", int page = 1)
         {
             List<StructurePostToRender> lst = new List<StructurePostToRender>();
@@ -44,8 +44,8 @@ namespace EWSApplication.Controllers
             }
             if (mode == "all")
             {
-               
-                lst = PostBLL.Post_GetAllPost( page,  pageSize);
+
+                lst = PostBLL.Post_GetAllPost(page, pageSize);
             }
             if (mode == "popular")
             {
@@ -99,7 +99,7 @@ namespace EWSApplication.Controllers
         [HttpPost]
         public ActionResult Login(string userName, string password)
         {
-                var userInfo = SystemBLL.System_Login(userName, password);
+            var userInfo = SystemBLL.System_Login(userName, password);
             if (userInfo == null)
             {
                 ModelState.AddModelError("", "Login Failed!");
@@ -121,7 +121,7 @@ namespace EWSApplication.Controllers
         }
         [HttpPost]
         public ActionResult Register(UserAccount acc)
-       {
+        {
             SystemBLL.System_CreateNewAccount(acc);
             return RedirectToAction("Index", "manager");
         }
