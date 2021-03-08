@@ -22,9 +22,7 @@ namespace EWSApplication.Controllers
             int rowCount = (from s in db.Posts select s).Count();
             int pageCount = rowCount / pageSize;
             ViewBag.pageCount = rowCount / pageSize;
-            //ViewBag.pageSize = pageSize;
             ViewBag.pageCur = page;
-            //ViewBag.mode = mode;
             ViewBag.userId = Session["uid"];
             ViewBag.userName = Session["uname"];
             ViewBag.ufacultyid = Session["ufacultyid"];
