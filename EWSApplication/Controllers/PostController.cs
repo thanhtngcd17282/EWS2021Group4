@@ -27,6 +27,7 @@ namespace EWSApplication.Controllers
             postData= PostBLL.Post_GetDetailsPost(postId);
             ViewBag.uroleid = Session["uroleid"];
             ViewBag.ListComt = PostBLL.Post_GetListCommentOfPost(postId);
+            ViewBag.opentime = Session["opentime"];
             return View(postData);
         }
 
@@ -37,7 +38,7 @@ namespace EWSApplication.Controllers
             cmtData.postid = Convert.ToInt32(TempData["postIdFromDetails"]);
             //gồm nội dung comment và id người gửi + id bài post...
             PostBLL.Post_CreateNewComment(cmtData);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Detail", new { postId = Convert.ToInt32(TempData["postIdFromDetails"]) });
         }
 
         [HttpPost]
@@ -54,7 +55,7 @@ namespace EWSApplication.Controllers
                 if (file != null)
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    filePath = Path.Combine(Server.MapPath("/Files"));
+                    filePath = Path.Combine(Server.MapPath("/Files"),fileName);
                     file.SaveAs(filePath);
                 }
                 else

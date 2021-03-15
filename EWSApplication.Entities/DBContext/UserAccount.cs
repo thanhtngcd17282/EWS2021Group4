@@ -13,7 +13,6 @@ namespace EWSApplication.Entities.DBContext
         [Required]
         public int userid { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string email { get; set; }
 
@@ -21,11 +20,11 @@ namespace EWSApplication.Entities.DBContext
         [StringLength(100)]
         public string password { get; set; }
 
-        [Required]
         public int roleid { get; set; }
 
         [StringLength(100)]
         public string username { get; set; }
         public int facultyid { get; set; }
+        public DateTime? opentime { get; set; }
     }
 }

@@ -27,5 +27,13 @@ namespace EWSApplication.BussinessLayers
         {
             return SysDal.DeteleNewAccount(userid);
         }
+        public static bool System_UpdateOpenTime(string opentime)
+        {
+            return SysDal.UpdateOpenTime(opentime);
+        }
+        public static string System_GetFaculty(int id)
+        {
+            return SysDal.GetFaculty(id);
+        }
     }
 }

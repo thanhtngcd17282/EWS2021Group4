@@ -16,6 +16,6 @@ namespace EWSApplication.Entities.DBContext
         [StringLength(100)]
         public string facultyname { get; set; }
 
-        public DateTime facultyear { get; set; }
+        public DateTime? facultyear { get; set; }
     }
 }

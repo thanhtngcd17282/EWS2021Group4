@@ -83,6 +83,27 @@ namespace EWSApplication.DataLayers
             return data;
 
         }
+        public bool UpdateOpenTime(string opentime)
+        {
+            try
+            {
+                DateTime dt = Convert.ToDateTime(opentime);
+                var accs = db.UserAccounts.ToList();
+                accs.ForEach(acc => acc.opentime = dt);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public string GetFaculty(int id)
+        {
+            string facultyname = db.Faculties.Find(id).facultyname;
+            return facultyname;
+        }
 
     }
 }

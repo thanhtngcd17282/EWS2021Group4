@@ -43,13 +43,46 @@
                                                 <ul>
                                                     @foreach (var @cmt in @ViewBag.ListComt)
                                                     {
-                                                        if (Convert.ToInt32(cmt.roleid) ==1 || Convert.ToInt32(cmt.roleid) == 3)
+                                                        if (Convert.ToInt32(cmt.roleid) == 1 || Convert.ToInt32(cmt.roleid) == 3)
                                                         {
                                                             continue;
                                                         }
                                                         else
                                                         {
 
+                                                            <li>
+                                                                <div class="comment-list">
+                                                                    <div class="bg-img">
+                                                                        <img src="images/resources/bg-img1.png" alt="">
+                                                                    </div>
+                                                                    <div class="comment">
+                                                                        <h3>
+                                                                            @if (@cmt.anonymous == true)
+                                                                            {@("Anonymous")}
+                                                                            else
+                                                                            {@cmt.username}
+                                                                        </h3>
+                                                                        <span><img src="images/clock.png" alt=""> 3 min ago</span>
+                                                                        <p>@cmt.Content</p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        }
+
+                                                    }
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="comment-section">
+                                            <h3>@ViewBag.ListComt.Count Comments</h3>
+                                            <div class="comment-sec">
+                                                <ul>
+                                                    @foreach (var @cmt in @ViewBag.ListComt)
+                                                    {
                                                         <li>
                                                             <div class="comment-list">
                                                                 <div class="bg-img">
@@ -61,51 +94,18 @@
                                                                         {@("Anonymous")}
                                                                         else
                                                                         {@cmt.username}
-                                                                </h3>
-                                                                <span><img src="images/clock.png" alt=""> 3 min ago</span>
-                                                                <p>@cmt.Content</p>
+                                                                    </h3>
+                                                                    <span><img src="images/clock.png" alt=""> 3 min ago</span>
+                                                                    <p>@cmt.Content</p>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                        }
+                                                        </li>
 
-                                                }
+                                                    }
                                                 </ul>
 
                                             </div>
                                         </div>
-                                    }
-                                    else
-                                    {
-                                    <div class="comment-section">
-                                        <h3>@ViewBag.ListComt.Count Comments</h3>
-                                        <div class="comment-sec">
-                                            <ul>
-                                                @foreach (var @cmt in @ViewBag.ListComt)
-                                                {
-                                                    <li>
-                                                        <div class="comment-list">
-                                                            <div class="bg-img">
-                                                                <img src="images/resources/bg-img1.png" alt="">
-                                                            </div>
-                                                            <div class="comment">
-                                                                <h3>
-                                                                    @if (@cmt.anonymous == true)
-                                                                    {@("Anonymous")}
-                                                                    else
-                                                                    {@cmt.username}
-                                                            </h3>
-                                                            <span><img src="images/clock.png" alt=""> 3 min ago</span>
-                                                            <p>@cmt.Content</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-
-                                            }
-                                            </ul>
-
-                                        </div>
-                                    </div>
                                     }
                                 }
                             </div>
@@ -122,7 +122,7 @@
                                     <textarea placeholder="Your Answer" name="Content" style="float:none"></textarea>
                                     <br>
                                     <div class="slideThree" style="margin:0; padding:0">
-                                        <input type="checkbox"  id="slideThree" name="anonymous" />
+                                        <input type="checkbox" id="slideThree" name="anonymous" />
                                         <label for="slideThree">Anonymous</label>
                                     </div>
                                     <button id="post_answer" value="post">Post Answer</button>
@@ -217,14 +217,16 @@
         </div>
     </div>
 </section>
-<script>
+@{ 
+
+    <script>
     document.getElementById("post_answer").addEventListener("click", function (event) {
         event.preventDefault();
     });
 
     var timerId =
         countdown(
-            new Date(2021, 2, 3, 16, 44),
+            new Date("@ViewBag.opentime"),
             function (ts) {
                 if (ts.value > 0) {
                     window.clearInterval(timerId);
@@ -240,4 +242,5 @@
             Date.now(),
             2, 0,
             countdown.HOURS | countdown.MINUTES | countdown.SECONDS & ~countdown.MILLISECONDS);
-</script>
+    </script>
+}

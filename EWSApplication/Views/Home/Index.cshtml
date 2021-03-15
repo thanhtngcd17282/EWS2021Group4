@@ -39,43 +39,86 @@
                                 </div>
                                 <div class="filter-dd">
                                     <div class="filter-ttl">
-                                        <h3>Faculty Id</h3>
-                                        <a href="#" title="">@ViewBag.ufacultyid</a>
+                                        <h3>Faculty</h3>
+                                        <a href="#" title="">@ViewBag.facultyname</a>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                        @if(Convert.ToInt32(ViewBag.uroleid) == 1)
-                        {
-                            <div class="filter-secs">
-                                <div class="filter-heading">
-                                    <h3>Manager</h3>
-                                    <a href="#" title="">Admin</a>
-                                </div>
-                                <div class="paddy" style="width: 100%;">
-                                    <div class="filter-dd">
-                                        <div class="filter-ttl">
-                                            <h3>Tags</h3>
-                                            <a href="@Url.Action("tag","manager")" title="">manager</a>
-                                        </div>
-                                    </div>
-                                    <div class="filter-dd">
-                                        <div class="filter-ttl">
-                                            <h3>User</h3>
-                                            <a href="@Url.Action("index","manager")" title="">manager</a>
-                                        </div>
-                                    </div>
-                                    <div class="filter-dd">
-                                        <div class="filter-ttl">
-                                            <h3>Statistics</h3>
-                                            <a href="@Url.Action("statistics","manager")" title="">manager</a>
-                                        </div>
-                                    </div>
 
+                        @if (Convert.ToInt32(ViewBag.uroleid) == 4)
+                        {
+                    <div class="filter-secs">
+                        <div class="filter-heading">
+                            <h3>Manager</h3>
+                            <a href="#" title="">Coordinator</a>
+                        </div>
+                        <div class="paddy" style="width: 100%;">
+                            <div class="filter-dd">
+                                <div class="filter-ttl">
+                                    <h3>Review post</h3>
+                                    <a href="@Url.Action("review","manager", new { facultyid=ViewBag.ufacultyid})" title="">manager</a>
                                 </div>
                             </div>
-                        }
+                        </div>
+                    </div>}
+
+                        @if (Convert.ToInt32(ViewBag.uroleid) == 6)
+                        {
+                    <div class="filter-secs">
+                        <div class="filter-heading">
+                            <h3>Manager</h3>
+                            <a href="#" title="">Marketting manager</a>
+                        </div>
+                        <div class="paddy" style="width: 100%;">
+                            <div class="filter-dd">
+                                <div class="filter-ttl">
+                                    <h3>Download files</h3>
+                                    <a href="@Url.Action("download","manager", new { facultyid=ViewBag.ufacultyid})" title="">manager</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>}
+
+                        @if (Convert.ToInt32(ViewBag.uroleid) == 1)
+                        {
+                    <div class="filter-secs">
+                        <div class="filter-heading">
+                            <h3>Manager</h3>
+                            <a href="#" title="">Admin</a>
+                        </div>
+                        <div class="paddy" style="width: 100%;">
+                            <div class="filter-dd">
+                                <div class="filter-ttl">
+                                    <h3>Tags</h3>
+                                    <a href="@Url.Action("tag","manager")" title="">manager</a>
+                                </div>
+                            </div>
+                            <div class="filter-dd">
+                                <div class="filter-ttl">
+                                    <h3>User</h3>
+                                    <a href="@Url.Action("index","manager")" title="">manager</a>
+                                </div>
+                            </div>
+                            <div class="filter-dd">
+                                <div class="filter-ttl">
+                                    <h3>Statistics</h3>
+                                    <a href="@Url.Action("statistics","manager")" title="">manager</a>
+                                </div>
+                            </div>
+                            <div class="filter-dd">
+                                <div class="filter-ttl">
+                                    <form action="@Url.Action("settime","Home")" method="post">
+                                        <label for="opentime">To open time:</label>
+                                        <input type="datetime-local" id="opentime" name="opentime">
+                                        <input type="submit">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>}
                     </div>
                     <div class="col-lg-6">
                         <div class="main-ws-sec">
@@ -335,7 +378,7 @@
     });
     var timerId =
         countdown(
-            new Date(2021, 2, 3, 17, 49),
+            new Date("@ViewBag.opentime"),
             function (ts) {
                 if (ts.value > 0) {
                     window.clearInterval(timerId);
