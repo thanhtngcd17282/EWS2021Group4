@@ -16,48 +16,10 @@ namespace EWSApplication.DataLayers
     {
         EWSDbContext db = new EWSDbContext();
         /// <summary>
-        /// Chế đọ xem của Guest
-        /// </summary>
-        /// <returns></returns>
-        public List<StructurePostToRender> GetAllPost_Guest(int page , int pageSize)
-        {
-            int startPos = (page - 1) * pageSize + 1;
-            int endPos = startPos + pageSize - 1;
-            SqlConnection connect = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\EWS.mdf;");
-            SqlCommand command = new SqlCommand();
-            command.CommandText = "select * from (select p.*,u.username,u.facultyid, ROW_NUMBER() OVER(ORDER BY postid ASC) AS RowNumber from Post as p INNER JOIN UserAccount as u on u.userid = p.userid) as t where (t.RowNumber BETWEEN @StartPos AND @EndPos ) and isActive = 1";
-            command.CommandType = CommandType.Text;
-            command.Connection = connect;
-            connect.Open(); // mở kết nối
-            command.Parameters.AddWithValue("@StartPos", startPos);
-            command.Parameters.AddWithValue("@EndPos", endPos);
-            SqlDataReader read = command.ExecuteReader(CommandBehavior.CloseConnection);
-            List<StructurePostToRender> data = new List<StructurePostToRender>();
-            while (read.Read())
-            {
-                data.Add(new StructurePostToRender
-                {
-                    postid = Convert.ToInt32(read["postid"]),
-                    title = Convert.ToString(read["title"]),
-                    anonymous = Convert.ToBoolean(read["anonymous"]),
-                    tag = Convert.ToString(read["tag"]),
-                    userid = Convert.ToInt32(read["userid"]),
-                    content = Convert.ToString(read["content"]),
-                    view = Convert.ToInt32(read["view"]),
-                    like = Convert.ToInt32(read["like"]),
-                    dislike = Convert.ToInt32(read["dislike"]),
-                    datetimepost = Convert.ToDateTime(read["datetimepost"]),
-                    filePath = Convert.ToString(read["filePath"]),
-                    username = Convert.ToString(read["username"])
-                });
-            }
-            return data;
-        }
-        /// <summary>
         /// lấy danh sách tất cả bài post để hiển thị trên Home
         /// </summary>
         /// <returns></returns>
-        public List<StructurePostToRender> GetAllPost(int page , int pageSize,int facultyid)
+        public List<StructurePostToRender> GetAllPost(int page , int pageSize)
         {
             #region use LinQ
             //var list = (from p in db.Posts
@@ -84,13 +46,12 @@ namespace EWSApplication.DataLayers
 
             SqlConnection connect = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\EWS.mdf;");
             SqlCommand command = new SqlCommand();
-            command.CommandText = "select * from (select p.*,u.username,u.facultyid, ROW_NUMBER() OVER(ORDER BY postid ASC) AS RowNumber from Post as p INNER JOIN UserAccount as u on u.userid = p.userid) as t where (t.RowNumber BETWEEN @StartPos AND @EndPos ) and isActive = 1 and t.facultyid = @facultyid";
+            command.CommandText = "select * from (select p.*,u.username, ROW_NUMBER() OVER(ORDER BY postid ASC) AS RowNumber from Post as p INNER JOIN UserAccount as u on u.userid = p.userid) as t where t.RowNumber BETWEEN @StartPos AND @EndPos";
             command.CommandType = CommandType.Text;
             command.Connection = connect;
             connect.Open(); // mở kết nối
             command.Parameters.AddWithValue("@StartPos", startPos);
             command.Parameters.AddWithValue("@EndPos", endPos);
-            command.Parameters.AddWithValue("@facultyid", facultyid);
             SqlDataReader read = command.ExecuteReader(CommandBehavior.CloseConnection);
             List<StructurePostToRender> data = new List<StructurePostToRender>();
             while (read.Read())
@@ -129,14 +90,13 @@ namespace EWSApplication.DataLayers
         /// lấy top 5 bài post phổ biến
         /// </summary>
         /// <returns></returns>
-        public List<StructurePostToRender> GetTopPopularPost(int facultyid_temp)
+        public List<StructurePostToRender> GetTopPopularPost()
         {
             List<StructurePostToRender> lst = new List<StructurePostToRender>();
             //lst = db.Posts.OrderByDescending(x => x.like).Take(5).ToList();
             var list = (from p in db.Posts
                         join u in db.UserAccounts
                         on p.userid equals u.userid
-                        where u.facultyid == facultyid_temp
                         orderby p.like descending
                         select new
                         {
@@ -177,14 +137,13 @@ namespace EWSApplication.DataLayers
         /// lấy top 5 bài post nhiều view nhất
         /// </summary>
         /// <returns></returns>
-        public List<StructurePostToRender> GetTopViewPost(int facultyid_temp)
+        public List<StructurePostToRender> GetTopViewPost()
         {
             List<StructurePostToRender> lst = new List<StructurePostToRender>();
             //lst = db.Posts.OrderByDescending(x => x.like).Take(5).ToList();
             var list = (from p in db.Posts
                         join u in db.UserAccounts
                         on p.userid equals u.userid
-                        where u.facultyid == facultyid_temp
                         orderby p.view descending
                         select new
                         {
@@ -356,8 +315,8 @@ namespace EWSApplication.DataLayers
             {
                 MailMessage message = new MailMessage();
                 SmtpClient smtp = new SmtpClient();
-                message.From = new MailAddress("thanhtngcd17282@fpt.edu.vn");//mail he thong
-                message.To.Add(new MailAddress("chantran.kam@gmail.com"));//mail admin
+                message.From = new MailAddress("votrannhatbinh29081999@gmail.com");
+                message.To.Add(new MailAddress("votrannhatbinh1999@gmail.com"));
                 message.Subject = "Test";
                 message.IsBodyHtml = false; //to make message body as html (true)
                 message.Body = content;
@@ -365,7 +324,7 @@ namespace EWSApplication.DataLayers
                 smtp.Host = "smtp.gmail.com"; //for gmail host  
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("thanhtngcd17282@fpt.edu.vn", "0543811497");//tk mk cua mail he thong
+                smtp.Credentials = new NetworkCredential("votrannhatbinh29081999@gmail.com", "vinamilk");
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
             }

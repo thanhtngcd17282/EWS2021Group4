@@ -21,7 +21,7 @@ namespace EWSApplication.BussinessLayers
         {
             return ManagerDAL.DeleteTag(tagID);
         }
-        public static List<string> Manager_GetAllFileToDownload()
+        public static List<ObjFile> Manager_GetAllFileToDownload()
         {
             return ManagerDAL.GetAllFileToDownload();
         }
@@ -32,14 +32,6 @@ namespace EWSApplication.BussinessLayers
         public static List<Analysis> Manager_Analysis()
         {
             return ManagerDAL.Analysis();
-        }
-        public static List<PostWaitingActive> Manager_GetPostWaitingActive(int facultyid)
-        {
-            return ManagerDAL.GetPostWaitingActive(facultyid);
-        }
-        public static bool Manager_ActivePost(int postid)
-        {
-            return ManagerDAL.ActivePost(postid);
         }
     }
 }

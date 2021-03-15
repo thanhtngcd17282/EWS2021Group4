@@ -225,8 +225,6 @@
     <Content Include="Views\Home\Popular.cshtml" />
     <Content Include="Views\Manager\Tag.cshtml" />
     <Content Include="Views\Manager\Statistics.cshtml" />
-    <Content Include="Views\Manager\Review.cshtml" />
-    <Content Include="Views\Manager\Download.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />

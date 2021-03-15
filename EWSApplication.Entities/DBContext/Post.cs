@@ -29,6 +29,5 @@ namespace EWSApplication.Entities.DBContext
         public DateTime datetimepost { get; set; }
         [StringLength(250)]
         public string filePath { get; set; }
-        public bool isActive { get; set; }
     }
 }
